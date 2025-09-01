@@ -91,9 +91,16 @@ async function bootstrap() {
   });
 
   const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`API listening on port ${port}`);
-  });
+
+  // Start the server only when this file is executed directly.
+  if (require.main === module) {
+    app.listen(port, () => {
+      console.log(`API listening on port ${port}`);
+    });
+  }
+
+  // Export the app for serverless or testing environments
+  module.exports = app;
 }
 
 // Execute the bootstrap function when the file is loaded. In
